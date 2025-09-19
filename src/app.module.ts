@@ -16,13 +16,16 @@ import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard';
       throttlers: [
         {
           ttl: 60000,
-          limit: 5,
+          limit: 15,
         },
       ],
     }),
     RagModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: CustomThrottlerGuard }],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: CustomThrottlerGuard },
+  ],
 })
 export class AppModule {}
