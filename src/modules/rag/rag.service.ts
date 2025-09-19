@@ -36,6 +36,15 @@ export class RagService implements OnModuleInit {
 
   async onModuleInit() {
     try {
+      // load embeddings di sini, bukan di constructor
+      const { HuggingFaceTransformersEmbeddings } = await import(
+        '@langchain/community/embeddings/hf_transformers'
+      );
+
+      this.embeddings = new HuggingFaceTransformersEmbeddings({
+        model: 'Xenova/all-MiniLM-L6-v2',
+      });
+
       await this.initializeRAG();
       this.logger.log('RAG system initialized successfully');
     } catch (error) {
