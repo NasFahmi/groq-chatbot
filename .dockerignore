@@ -1,0 +1,27 @@
+# Exclude local dependencies and builds
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+/dist
+/coverage
+
+# VCS and editor
+.git
+.gitignore
+.eslintcache
+.idea
+.vscode
+.DS_Store
+
+# Env and secrets (pass via --env-file or compose)
+.env
+.env.*
+
+# Misc
+*.swp
+*.swo
+*.tmp

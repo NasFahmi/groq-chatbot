@@ -28,8 +28,6 @@ export class RagService implements OnModuleInit {
       maxTokens: 1000,
     });
 
-    this.logger.log(groqConfig);
-
     // Initialize embeddings
     this.embeddings = new HuggingFaceTransformersEmbeddings({
       model: 'Xenova/all-MiniLM-L6-v2',
