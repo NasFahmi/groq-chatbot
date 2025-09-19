@@ -2,7 +2,6 @@ import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { ChatGroq } from '@langchain/groq';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { MemoryVectorStore } from 'langchain/vectorstores/memory';
-import { HuggingFaceTransformersEmbeddings } from '@langchain/community/embeddings/hf_transformers';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { StringOutputParser } from '@langchain/core/output_parsers';
@@ -10,13 +9,14 @@ import { Document } from '@langchain/core/documents';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getGroqConfig } from 'src/config/groq.config';
+import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 
 @Injectable()
 export class RagService implements OnModuleInit {
   private readonly logger = new Logger(RagService.name);
   private vectorStore: MemoryVectorStore;
   private llm: ChatGroq;
-  private embeddings: HuggingFaceTransformersEmbeddings;
+  private embeddings: GoogleGenerativeAIEmbeddings;
   private chain: RunnableSequence;
 
   constructor() {
@@ -29,22 +29,14 @@ export class RagService implements OnModuleInit {
     });
 
     // Initialize embeddings
-    this.embeddings = new HuggingFaceTransformersEmbeddings({
-      model: 'Xenova/all-MiniLM-L6-v2',
+    this.embeddings = new GoogleGenerativeAIEmbeddings({
+      apiKey: process.env.GOOGLE_API_KEY,
+      modelName: 'text-embedding-004',
     });
   }
 
   async onModuleInit() {
     try {
-      // load embeddings di sini, bukan di constructor
-      const { HuggingFaceTransformersEmbeddings } = await import(
-        '@langchain/community/embeddings/hf_transformers'
-      );
-
-      this.embeddings = new HuggingFaceTransformersEmbeddings({
-        model: 'Xenova/all-MiniLM-L6-v2',
-      });
-
       await this.initializeRAG();
       this.logger.log('RAG system initialized successfully');
     } catch (error) {
