@@ -147,8 +147,6 @@ export class RagService implements OnModuleInit {
     const prompt = PromptTemplate.fromTemplate(
       `Namamu adalah Sentinela.
         Kamu adalah asisten RAG yang hanya boleh menjawab berdasarkan konteks berikut.
-        Jika konteks kosong, sangat sedikit, atau tampak tidak relevan dengan pertanyaan,
-        JANGAN MENEBak atau mengada-ada. TOLAK untuk menjawab dan gunakan respons fallback di bawah.
 
         Aturan:
         - Jawab singkat, jelas, dan spesifik berbasis konteks.
