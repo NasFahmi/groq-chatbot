@@ -8,16 +8,8 @@ services:
     env_file:
       - .env
     ports:
-      - "${PORT:-3000}:3000"
+      - '${PORT:-3000}:3000'
     restart: unless-stopped
-    healthcheck:
-      # Generic TCP check on port 3000 using Node (doesn't assume any HTTP route)
-      test: ["CMD", "node", "-e", "require('net').connect(process.env.PORT||3000,'127.0.0.1').on('connect',()=>process.exit(0)).on('error',()=>process.exit(1))"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
 # Usage:
 # 1) Ensure you have a .env file (copy from .env.example and fill GROQ_API_KEY)
 # 2) Build:  docker compose build
